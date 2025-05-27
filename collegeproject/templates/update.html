@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+       .container{
+        margin: 60px;
+        padding: 3px;
+
+       }
+        ul{
+        display: flex;
+        list-style: none;
+    }
+    a{
+        text-decoration: none;
+        padding: 10px;
+        font-weight: bold;
+    }
+    nav{
+        background-color: brown;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+
+    }
+    a:hover{
+        background-color: beige;
+    }
+    img {
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 5px;
+  width: 100px;
+}
+    </style>
+</head>
+<body style="background-image: url('{% static "images\clg1.jpg" %}');background-size: 1500px 1000px;background-repeat: no-repeat;">
+     <nav>
+        <a href=""><b>Acharya group of institutions</b></a>
+        <ul>
+        <li><a href="{% url 'userhome' %}">Home</a></li>
+        <li><a href="{% url 'pageview' %}">View</a></li>
+        <li><a href="{% url 'update' %}">Update</a></li>
+         <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</nav>
+ 
+    <div class="container"> 
+        <div class="row justify-content-center"> 
+            <div class="col-md-8"> 
+                <div class="card"> 
+                    <div class="card-header" style="text-align: center;background-color:lightblue;"><b>Teacher</b></div> 
+                    <div class="card-body"> 
+                        <p>{% for msg in messages %}
+                            <div class="alert alert-danger mt-3" >{{ msg }}</div>
+                             {% endfor %} </p>  
+                        <form action="{% url 'updateuser' %}" enctype="multipart/form-data" method="POST" name="myform" id="myform">
+                             {% csrf_token %}
+                            <div class="form-group row"> 
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Firstname</label> 
+                                <div class="col-md-6"> 
+                                    <input type="text" id="firstname" class="form-control" name="firstname" required value="{{key.user.first_name}}"> 
+                                </div> 
+                            </div>
+                            <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Lastname</label> 
+                                <div class="col-md-6"> 
+                                    <input type="text" id="lastname" class="form-control" name="lastname" required value="{{key.user.last_name}}"> 
+                                </div> 
+                            </div>
+                             <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Username</label> 
+                                <div class="col-md-6"> 
+                                    <input type="text" id="username" class="form-control" name="username" required value="{{key.user.username}}"> 
+                                     <!-- {% for m in messages %}
+                                     <p style="color: red;">{{m}}</p>
+                                     {% endfor %} -->
+                                </div> 
+                            </div>
+                           
+                             <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Age</label> 
+                                <div class="col-md-6"> 
+                                    <input type="number" id="age" class="form-control" name="age" required value="{{key.age}}"> 
+                                </div> 
+                            </div>
+                            <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Address</label> 
+                                <div class="col-md-6"> 
+                                    <input type="text" id="address" class="form-control" name="address" required value="{{key.address}}"> 
+                                </div> 
+                            </div>
+                            <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Email</label> 
+                                <div class="col-md-6"> 
+                                    <input type="email" id="email" class="form-control" name="email" required value="{{key.user.email}}"> 
+                                    
+                                </div> 
+                            </div>
+                             <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Phone</label> 
+                                <div class="col-md-6"> 
+                                    <input type="number" id="phone" class="form-control" name="phone" required value="{{key.phone}}"> 
+                                    <!-- {% for m in messages %}
+                                     <p style="color: red;">{{m}}</p>
+                                     {% endfor %} -->
+                                </div> 
+                            </div>
+                            </div>
+                            
+
+                             <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Image</label>  
+
+
+                                <div class="col-md-6">
+                                    <input type="file" id="img" class="form-control" name="img"> 
+                                </div> 
+                            </div>
+                            {% if key.image %}
+                             <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right"></label> 
+                                <div class="col-md-6"> 
+                                     <img src="{{key.image.url}}" alt="">
+                                </div> 
+                            
+                          </div>
+                            {% endif %}
+                             <div class="form-group row"> 
+                                <label class="col-md-4 col-form-label text-md-right">Course</label> 
+                                <div class="col-md-6"> 
+                                  <select name="course" id="course">
+                                        {% for i in cou %}
+                                        {% if i.id == key.course.id %}
+                                        <option value="{{i.id}}" selected> {{i.coursename}} </option>
+                                        {% else %}
+                                        <option value="{{i.id}}">{{i.coursename}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+
+                                </div> 
+                            </div>
+                            
+                        <div class="form-group row mb-0"> 
+                            <div class="col-md-6 offset-md-4"> 
+                         
+                                <button type="submit" class="btn btn-success" style="text-align: center;">Update</button> 
+                            </div> 
+                        </div> 
+                    </form> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectedValue = "{{ key.course_id }}"; // Get the selected course ID
+        const dropdown = document.getElementById('course'); // The dropdown element
+  
+        // Loop through each option in the dropdown and hide the selected one from the list
+        for (let option of dropdown.options) {
+            if (option.value === selectedValue) {
+                option.style.display = 'none'; // Hide the selected option from the list
+                
+            }
+        }
+    });
+
+//   function validate(){
+//     var Email=document.getElementById('email').value;
+//     var PhoneNo=document.getElementById('phone').value;
+//     var username = request.GET.get('username', None)
+//     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     if(Email=='' || !regex.test(Email)){
+//       window.alert("Enter valid email")
+//       return false;
+//     }
+//     var ph=/^\d{10}$/;
+//     if(PhoneNo=='' || !ph.test(PhoneNo)){
+//         alert("Enter valid 10 digit phone number");
+//         return false;
+//     }
+//     if(true){
+//     alert("Updated Successfully");
+    
+//   }
+// }
+
+</script>
+
+</body>
+</html>

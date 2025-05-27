@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     {% load static %}
+     <style>
+         ul{
+        display: flex;
+        list-style: none;
+    }
+    a{
+        text-decoration: none;
+        padding: 10px;
+        font-weight: bold;
+    }
+    nav{
+        background-color: brown;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+
+    }
+    a:hover{
+        background-color: beige;
+    }
+     </style>
+</head>
+<body style="background-image: url('{% static "images\clg4.jpg" %}');background-size: 1500px 600px;background-repeat: no-repeat;"></body>
+ <nav>
+        <a href=""><b>Acharya group of institutions</b></a>
+        <ul>
+        <li><a href="{% url 'admin' %}">Home</a></li>
+        <li><a href="{% url 'student' %}">Student</a></li>
+        <li><a href="{% url 'course' %}">Course</a></li>
+        <li><a href="{% url 'viewcourse' %}">View Course</a></li>
+        <li><a href="{% url 'show_student' %}">Student Details</a></li>
+        <li><a href="{% url 'show_teacher' %}">Teacher Details</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</nav>
+<h1><center>Welcome Admin!!!</center></h1>
+</body>
+</html>
